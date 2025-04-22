@@ -1,0 +1,28 @@
+server:
+  port: 8082
+  servlet:
+    context-path: /helloWorldRestApis
+  
+springdoc:   
+  api-docs:
+    enabled: true
+    #api-docs is only represents inboundgw service. It's not consolidation of the api specs for all BW microservices    
+    path: ${openapi-prefix}/api-docs
+  swagger-ui:
+     path: /openapi-ui
+  #/webjars is visible in the URL of swagger-ui for spring-webflux.
+  #To change /webjars to /svc/bw we need to add the prefix
+  #For more information please visit #https://springdoc.org/    
+  webjars:
+     prefix: ${openapi-prefix} 
+
+management:
+  endpoints:
+    web:
+      base-path: ${server.servlet.context-path}/actuator
+      exposure:
+        include: loggers,health,info,gateway,prometheus
+  endpoint:
+    health:
+      probes:
+        enabled: true
