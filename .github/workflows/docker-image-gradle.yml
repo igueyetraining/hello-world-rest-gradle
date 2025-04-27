@@ -25,7 +25,7 @@ jobs:
       - name: Build Project and Create Docker image using Gradle
         run: ./gradlew bootBuildImage
       - name: Extract Gradle Project Name
-        run: echo "PROJECT_NAME_VERSIONENV_VAR=$(./gradlew properties --no-daemon --console=plain -q | grep "^name:" | awk '{printf $2}')" >> $GITHUB_ENV
+        run: echo "PROJECT_NAME_ENV_VAR=$(./gradlew properties --no-daemon --console=plain -q | grep "^name:" | awk '{printf $2}')" >> $GITHUB_ENV
       - name: Extract Gradle Project Version
         run: echo "PROJECT_VERSION_ENV_VAR=$(./gradlew properties --no-daemon --console=plain -q | grep "^version:" | awk '{printf $2}')" >> $GITHUB_ENV
 
