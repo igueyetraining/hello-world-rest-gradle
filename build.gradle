@@ -36,3 +36,9 @@ tasks.named('test') {
 springBoot {
     buildInfo()
 }
+
+tasks.register('printProjectNameAndVersion') {
+    doLast {
+        println "${project.name}:${project.version}"
+    }
+}
