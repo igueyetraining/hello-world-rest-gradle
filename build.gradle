@@ -42,3 +42,9 @@ tasks.register('printProjectNameAndVersion') {
         println "${project.name}:${project.version}"
     }
 }
+
+def imagePrefix = 'ismaelgueyetraining'
+
+tasks.named('bootBuildImage') {
+       imageName = "${imagePrefix}/${project.name}:${project.version}"
+}

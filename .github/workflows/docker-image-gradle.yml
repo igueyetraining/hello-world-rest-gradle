@@ -21,9 +21,9 @@ jobs:
           distribution: 'temurin'
           java-version: '21'
       - name: Change wrapper permissions
-        run: chmod +x ./gradlew      
+        run: chmod +x ./gradlew
       - name: Build Project and Create Docker image using Gradle
-        run: ./gradlew bootBuildImage -PimageName=ismaelgueyetraining/${name}:${version}
+        run: ./gradlew bootBuildImage
       - name: Extract Gradle Project Name
         run: echo "PROJECT_NAME_ENV_VAR=$(./gradlew properties --no-daemon --console=plain -q | grep "^name:" | awk '{printf $2}')" >> $GITHUB_ENV
       - name: Extract Gradle Project Version
