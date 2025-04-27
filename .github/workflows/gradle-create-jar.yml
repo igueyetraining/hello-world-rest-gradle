@@ -38,5 +38,5 @@ jobs:
         uses: actions/upload-artifact@v4
         with:
           name: $PROJECT_NAME_ENV_VAR-$PROJECT_VERSION_ENV_VAR.jar
-          path: target/$PROJECT_NAME_ENV_VAR-$PROJECT_VERSION_ENV_VAR.jar
+          path: build/libs/$PROJECT_NAME_ENV_VAR-$PROJECT_VERSION_ENV_VAR.jar
           compression-level: 0 # no compression
