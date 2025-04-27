@@ -1,17 +1,21 @@
-name: Docker Create - Push Image CI
+# This workflow will build a Java project with Maven, and cache/restore any dependencies to improve the workflow execution time
+# For more information see: https://docs.github.com/en/actions/automating-builds-and-tests/building-and-testing-java-with-maven
+
+# This workflow uses actions that are not certified by GitHub.
+# They are provided by a third-party and are governed by
+# separate terms of service, privacy policy, and support
+# documentation.
+name: Create JAR Package
 
 on:
   push:
-    branches: [ "master" ]
-  pull_request:
-    branches: [ "master" ]
+    branches:
+      - master
 
 jobs:
-
-  build-push-docker-hub:
-
+  build:
     runs-on: ubuntu-latest
-
+   
     steps:
       - name: Checkout Source
         uses: actions/checkout@v4
@@ -23,18 +27,16 @@ jobs:
       - name: Change wrapper permissions
         run: chmod +x ./gradlew
       - name: Build Project and Create Docker image using Gradle
-        run: ./gradlew bootBuildImage
+        run: ./gradlew bootJar
       - name: Extract Gradle Project Name
         run: echo "PROJECT_NAME_ENV_VAR=$(./gradlew properties --no-daemon --console=plain -q | grep "^name:" | awk '{printf $2}')" >> $GITHUB_ENV
       - name: Extract Gradle Project Version
         run: echo "PROJECT_VERSION_ENV_VAR=$(./gradlew properties --no-daemon --console=plain -q | grep "^version:" | awk '{printf $2}')" >> $GITHUB_ENV
-
       - name: Show extracted Gradle project version
         run: echo $PROJECT_NAME_ENV_VAR:$PROJECT_VERSION_ENV_VAR
-      - name: Login to Docker Hub
-        uses: docker/login-action@v3
+      - name: Upload JAR
+        uses: actions/upload-artifact@v4
         with:
-          username: ${{ vars.DOCKERHUB_USERNAME }}
-          password: ${{ secrets.DOCKERHUB_TOKEN }}
-      - name: Push
-        run: docker push ismaelgueyetraining/$PROJECT_NAME_ENV_VAR:$PROJECT_VERSION_ENV_VAR
+          name: $PROJECT_NAME_ENV_VAR-$PROJECT_VERSION_ENV_VAR.jar
+          path: target/$PROJECT_NAME_ENV_VAR-$PROJECT_VERSION_ENV_VAR.jar
+          compression-level: 0 # no compression
