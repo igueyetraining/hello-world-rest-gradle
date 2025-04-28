@@ -1,4 +1,4 @@
-name: Docker Create - Push Image CI
+name: Upload JAR - Docker Create - Push Image CI
 
 on:
   push:
